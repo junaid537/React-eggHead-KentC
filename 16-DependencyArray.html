@@ -1,0 +1,53 @@
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script type="text/babel">
+        const rootElement=document.getElementById('root');
+        const Greeting=()=>{
+            const [name,setName]=React.useState( ()=>{
+                console.log('hi');
+                window.localStorage.getItem('name') || ''
+            } );
+
+            React.useEffect(() => {
+                //console.log('wen button is pressed this useEffect is also getting executed')
+                window.localStorage.setItem('name', name)
+            },[name])
+
+            const handleChange = event => setName(event.target.value)
+
+            return (
+                <div>
+                <form>    
+                    <label htmlFor='name'>Name</label>    
+                    <input id='name' onChange={handleChange}/>
+                </form>   
+                {name?<strong>Helllo {name}</strong>: 'Please enter name'}
+                </div>
+            )
+        }
+
+
+
+        const App=()=>{
+            const [counter,setCounter]=React.useState(0);
+            return(
+                <div>
+                    <button onClick={()=>{setCounter(counter+1)}}>INCREMENT {counter}</button>
+                    <Greeting></Greeting>
+                </div>
+            )
+        }
+
+
+        const element=(
+            <div>
+                <App></App>    
+            </div>
+        )
+        ReactDOM.render(element,rootElement)
+    </script>
+
+</body>
